@@ -293,9 +293,13 @@ class MLP(nn.Module):
 
 
 def build(args):
-    num_classes = 20 if args.dataset_file != 'coco' else 91
-    if args.dataset_file == "coco_panoptic":
-        num_classes = 250
+    # num_classes = 20 if args.dataset_file != 'coco' else 91
+    # if args.dataset_file == "coco_panoptic":
+    #     num_classes = 250
+
+    #This is for the wheat detection challenge
+    num_classes = 1
+    print("Number of output classes: "+str(num_classes))
     device = torch.device(args.device)
 
     backbone = build_backbone(args)
@@ -306,7 +310,8 @@ def build(args):
         backbone,
         transformer,
         num_classes=num_classes,
-        num_queries=args.num_queries,
+        #num_queries=args.num_queries,
+        num_queries=30,       #set number of queris to max of 30 for wheat detection
         aux_loss=args.aux_loss,
     )
     if args.masks:
